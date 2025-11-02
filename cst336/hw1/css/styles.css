@@ -1,4 +1,11 @@
-/* same as lab 1 */
+    /* Author: Sydney Stalker 
+    Class: CST 336 Internet Programming
+    Date: 11/4/2025
+    Assignment: HW 1: HTML and CSS
+    File: styles.css
+    Abstract: CSS file defining the layout, colors, fonts, and styles for all pages in the cybersecurity website.  
+    */
+
 
 body{
     background-color:rgb(68, 18, 144);
@@ -87,6 +94,24 @@ body{
 
 
 
-/* New CSS properties I di dnot use in Lab 1 */
+/* New CSS properties not used in Lab 1:
+    - letter-spacing
+    - cursor 
+    These improver hyperlink appearance and usability */
+
+a{
+    color: white;
+    text-decoration: none;
+    transition: color 0.3 ease;
+    letter-spacing:0.5px; /*NEW CSS*/
+}
+
+a:hover{
+    color: grey;
+    text-decoration: none;
+    cursor: pointer; /*NEW CSS*/
+}
+
+
 
 

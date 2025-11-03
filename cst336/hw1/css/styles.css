@@ -16,12 +16,24 @@ header, main, nav, footer{
     text-align: center;
 }
 
+
+/* New CSS properties not used in Lab 1:
+   - margin and border-right: add spacing and dividers between links
+   - background-color and border-radius on hover: improve link visibility and user interaction */
+
 nav a{
     padding:5px;
     padding-bottom:4px;
     font-size: 1.8em;
     text-decoration: none;
     color: white;
+    margin: 0 10px;
+    padding: 0 8px;
+    border-right: 1px solid rgb(255, 255, 255, 0.3);
+}
+
+nav a:last-child{
+    border-right: none;
 }
 
 nav a:hover{
@@ -32,7 +44,11 @@ nav a:hover{
 
 main{
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
+    text-align: left;
+    
 }
 
 footer {
@@ -49,28 +65,30 @@ nav a.active {
 
 header{
   background-color: rgb(68, 18, 144);
-  color: rgb(198, 174, 234);
+  color: rgb(206, 188, 232);
 }
 
 table{
-    margin: 0px auto;
+    border-collapse: collapse;
+    margin: 20px auto;
+    color: white;
+    width: 80%;
+    border: 3px rgb(5, 5, 5);
+
 }
 
-td{
-    padding-right: 10px;
-    font-size: 1.3em;
+th, td{
+    border: 2px solid rgb(5, 5, 5);
+    padding: 10px;
 }
 
-td strong{
-    color: darkgrey;
+th{
+    background-color: rgb(36, 10, 76);
 }
 
-#table-header{
-    background-color:#351330;
-}
+tr:nth-child(even){
+    background-color:rgb(117, 54, 212);
 
-.table-row{
-    background-color:#612e56;
 }
 
 ul{
@@ -111,6 +129,32 @@ a:hover{
     text-decoration: none;
     cursor: pointer; /*NEW CSS*/
 }
+
+header{
+    font-family: "Orbitron", sans-serif;
+}
+
+/* New CSS feature for HW1:
+   Added an .infobox class to highlight important information.
+   Includes new properties such as border-left, box-shadow, and custom padding/margin for visual emphasis. */
+.infobox {
+  background-color: rgb(36, 10, 76);
+  border-left: 6px solid rgb(117, 54, 212);
+  padding: 15px 20px;
+  margin: 20px auto;
+  width: 75%;
+  color: (206, 188, 232);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+}
+
+.infobox h3 {
+  color: rgb(206, 188, 232);         
+  margin-top: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
 
 
 

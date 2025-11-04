@@ -6,7 +6,6 @@
     Abstract: CSS file defining the layout, colors, fonts, and styles for all pages in the cybersecurity website.  
     */
 
-
 body{
     background-color:rgb(68, 18, 144);
     color:rgb(198, 174, 234);
@@ -48,7 +47,6 @@ main{
     align-items: center;
     justify-content: center;
     text-align: left;
-    
 }
 
 footer {
@@ -87,7 +85,6 @@ th{
 
 tr:nth-child(even){
     background-color:rgb(117, 54, 212);
-
 }
 
 ul{
@@ -108,8 +105,6 @@ body{
     font-variation-settings:
     "wdth" 100;
 }
-
-
 
 /* New CSS properties not used in Lab 1:
     - letter-spacing

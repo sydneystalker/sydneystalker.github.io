@@ -1,0 +1,208 @@
+/* 
+Author: Sydney Stalker
+Class: CST 336 Internet Programming
+Date: 11/10/2025
+Assignment: Lab 2 – Guess the Number
+File: styles.css
+Abstract:
+This stylesheet provides the visual design for the "Guess the Number" game. 
+It applies a background image, solid color cards for readability, and consistent 
+styling for buttons, text, and the footer to match other CST 336 lab pages.
+*/
+
+:root {
+  --bg: #f7f7f8;
+  --card-bg: #ffffff;          
+  --text: #1e1e1e;
+  --muted: #666;
+  --accent: #8112ad;           
+  --accent-press: #50076d;
+  --secondary: #64748b;        
+  --secondary-press: #334155;
+  --success: #166534;
+  --warn: #b45309;
+  --danger: #991b1b;
+  --radius: 16px;
+  --shadow: 0 10px 24px rgba(0,0,0,.12);
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text);
+  background: 
+    url("../img/nums.png") center/cover no-repeat fixed,
+    var(--bg);
+}
+
+
+.page-wrap {
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 24px;
+  padding: 32px 16px;
+}
+
+.card {
+  max-width: 820px;
+  margin: 0 auto;
+  background: var(--card-bg);  
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px 22px;
+}
+
+header h1 {
+  margin: 0 0 8px 0;
+  font-size: clamp(28px, 4vw, 40px);
+  letter-spacing: 0.4px;
+}
+
+header h2 {
+  margin: 0;
+  font-weight: 500;
+  color: var(--muted);
+  font-size: clamp(16px, 2.2vw, 20px);
+}
+
+
+#main .label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+input[type="number"] {
+  width: 140px;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 16px;
+  outline: none;
+}
+
+input[type="number"]:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(59,130,246,.2);
+}
+
+
+.btn {
+  appearance: none;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .04s ease, box-shadow .2s ease, background-color .15s ease;
+  color: #fff;
+  background: var(--accent);
+  box-shadow: 0 6px 14px rgba(59,130,246,.25);
+}
+
+.btn:hover { transform: translateY(-1px); }
+.btn:active { background: var(--accent-press); transform: translateY(0); }
+
+.btn.btn-secondary {
+  background: var(--secondary);
+  box-shadow: 0 6px 14px rgba(100,116,139,.25);
+}
+.btn.btn-secondary:active { background: var(--secondary-press); }
+
+
+.feedback {
+  margin-top: 14px;
+  font-weight: 600;
+}
+
+.meta {
+  margin-top: 12px;
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+}
+
+#guesses {
+  font-weight: 600;
+  color: var(--text);
+}
+
+#attemptsLeft {
+  font-weight: 700;
+}
+
+
+.scoreboard {
+  margin-top: 14px;
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #f9fafb; 
+  font-weight: 600;
+}
+
+.scoreboard #wins { color: var(--success); }
+.scoreboard #losses { color: var(--danger); }
+
+footer {
+  max-width: 820px;
+  margin: 0 auto;
+  text-align: center;
+  background: var(--card-bg);       
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  color: var(--muted);
+  font-size: 0.9em;
+}
+
+footer hr {
+  border: none;
+  border-top: 2px solid #d1d5db;
+  width: 80%;
+  margin-bottom: 10px;
+}
+
+footer strong {
+  color: var(--text);
+}
+
+footer figure {
+  margin: 10px auto 0;
+}
+
+footer img {
+  width: 90px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
+}
+
+@media (max-width: 520px) {
+  .row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  input[type="number"] {
+    width: 100%;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}

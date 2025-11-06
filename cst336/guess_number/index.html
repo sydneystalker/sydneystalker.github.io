@@ -1,33 +1,61 @@
 <!-- Author: Sydney Stalker 
 Class: CST 336 Internet Programming
 Date: 11/10/2025
-Assignment: 
+Assignment: Lab 2 - Guess the Number
 File: index.html
-Abstract: 
+Abstract: This webpage implements an interactive "Guess the Number" game using HTML, CSS, and JavaScript. 
+The player attempts to guess a randomly generated number between 1 and 99 within seven tries. 
+The interface displays feedback, the number of attempts left, total wins and losses, and includes 
+a responsive design with a styled background.
 -->
     
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <title> Guess a Number </title>
-        <meta charset="utf-8">
-    </head>
-    <body>
+  <head>
+    <title> Guess a Number </title>
+    <meta charset="utf-8">
+    <!-- NEW: custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+  </head>
+  <body>
+    <div class="page-wrap">
+      <header class="card">
+        <h1>Guess the Number!</h1>
+        <h2>Guess a number between 1 and 99 in seven attempts!</h2>
+      </header>
 
-        <header>
-            <h1>Guess the Number!</h1>
-            <h2>Guess a number between 1 and 99 in seven attempts!</h2>
-        </header>
-        <br>
-        <div id="main">
-          Enter a guess: 
-          <input type="text" id="playerGuess" size="8">         
-          <button id="guessBtn"> Guess </button> <br>
-          <button id="resetBtn"> Reset </button> 
+      <main id="main" class="card">
+        <label for="playerGuess" class="label">Enter a guess:</label>
+        <div class="row">
+          <input type="number" id="playerGuess" min="1" max="99" />
+          <button id="guessBtn" class="btn">Guess</button>
+          <button id="resetBtn" class="btn btn-secondary">Reset</button>
         </div>
 
+        <div id="feedback" class="feedback"></div>
 
-        <script src="js/script.js"></script>
-    </body>
+        <div class="meta">
+          <div>Previous Guess: <span id="guesses"></span></div>
+          <div>Attempts left: <span id="attemptsLeft"></span></div>
+        </div>
+
+        <div id="scoreboard" class="scoreboard">
+          Wins: <span id="wins">0</span> |
+          Losses: <span id="losses">0</span>
+        </div>
+      </main>
+
+      <footer>
+             <hr>
+             CST336 Internet Programming. 2025&copy; Stalker<br>
+             <strong>Disclaimer:</strong>This webpage is for educational purposes only.<br>
+                         <figure>
+                <img src="img/csumb_logo.png" alt="CSUMB Logo">
+            </figure>
+        </footer>
+    </div>
+
+    <script src="js/script.js"></script>
+  </body>
 </html>

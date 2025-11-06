@@ -11,7 +11,7 @@ styling for buttons, text, and the footer to match other CST 336 lab pages.
 */
 
 :root {
-  --bg: #f7f7f8;
+  --bg: #26262dff;
   --card-bg: #ffffff;          
   --text: #7c229f;
   --muted: #666;

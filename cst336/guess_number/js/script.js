@@ -83,7 +83,12 @@ function checkGuess(){
         wins++;
         gameOver();
     }else{
-        document.querySelector("#guesses").textContent += guess + " ";
+        let guessesEl = document.querySelector("#guesses");
+        if (guessesEl.textContent === "") {
+            guessesEl.textContent = guess;
+        } else {
+            guessesEl.textContent += ", " + guess;
+        }
         if (attempts === maxAttempts){
             feedback.textContent = "Sorry, you lost:("
             feedback.style.color = "red";

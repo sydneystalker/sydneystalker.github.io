@@ -13,7 +13,7 @@ styling for buttons, text, and the footer to match other CST 336 lab pages.
 :root {
   --bg: #f7f7f8;
   --card-bg: #ffffff;          
-  --text: #1e1e1e;
+  --text: #7c229f;
   --muted: #666;
   --accent: #8112ad;           
   --accent-press: #50076d;
@@ -52,6 +52,14 @@ body {
   max-width: 820px;
   margin: 0 auto;
   background: var(--card-bg);  
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px 22px;
+}
+
+header {
+  text-align: center;           /* centers all header text */
+  background: var(--card-bg);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 20px 22px;

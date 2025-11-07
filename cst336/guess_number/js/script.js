@@ -89,8 +89,9 @@ function checkGuess(){
         } else {
             guessesEl.textContent += ", " + guess;
         }
+
         if (attempts === maxAttempts){
-            feedback.textContent = "Sorry, you lost:("
+            feedback.textContent = "Sorry, you lost — the number was " + randomNumber + ".";
             feedback.style.color = "red";
             losses++;
             gameOver();

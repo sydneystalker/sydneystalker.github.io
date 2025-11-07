@@ -58,7 +58,7 @@ body {
 }
 
 header {
-  text-align: center;           /* centers all header text */
+  text-align: center;           
   background: var(--card-bg);
   border-radius: var(--radius);
   box-shadow: var(--shadow);

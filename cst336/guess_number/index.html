@@ -26,12 +26,15 @@ a responsive design with a styled background.
       </header>
 
       <main id="main" class="card">
+
+        <form id="guessForm" onsubmit="return false;">
         <label for="playerGuess" class="label">Enter a guess:</label>
         <div class="row">
           <input type="number" id="playerGuess" min="1" max="99" />
           <button id="guessBtn" class="btn">Guess</button>
           <button id="resetBtn" class="btn btn-secondary">Reset</button>
         </div>
+        </form>
 
         <div id="feedback" class="feedback"></div>
 

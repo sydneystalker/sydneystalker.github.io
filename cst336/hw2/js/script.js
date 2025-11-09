@@ -28,8 +28,41 @@ if(!isFormValid()){
  return;
 }
 
-let q1Response = document.querySelector("#q1").value;
- console.log(q1Response);
+//Variables
+let score = 0;
+let q1Response = document.querySelector("#q1").value.toLowerCase();
+let q2Response = document.querySelector("#q2").value;
+console.log(q2Response);
+
+//Grading question 1
+if(q1Response == "sacramento"){
+    document.querySelector("#q1Feedback").innerHTML = "Correct!";
+    document.querySelector("#q1Feedback").className = "bg-success text white";
+    document.querySelector("#markImg1").innerHTML = "<img src= 'img/checkmark.png' alt='Checkmark'>";
+    score +=20;
+}else{
+    document.querySelector("#q1Feedback").innerHTML = "Incorrect!";
+    document.querySelector("#q1Feedback").className = "bg-warning text white";
+    document.querySelector("#markImg1").innerHTML = "<img src= 'img/xmark.png' alt='Xmark'>";
+}
+
+//Grading question 2
+if(q2Response == "mo"){
+    document.querySelector("#q2Feedback").innerHTML = "Correct!";
+    document.querySelector("#q2Feedback").className = "bg-success text white";
+    document.querySelector("#markImg2").innerHTML = "<img src= 'img/checkmark.png' alt='Checkmark'>";
+    score +=20;
+}else{
+    document.querySelector("#q2Feedback").innerHTML = "Incorrect!";
+    document.querySelector("#q2Feedback").className = "bg-warning text white";
+    document.querySelector("#markImg2").innerHTML = "<img src= 'img/xmark.png' alt='Xmark'>";
+}
+
+
+
+
+
+document.querySelector("#totalScore").innerHTML = `Total Score: ${score}`; 
 
 
 }

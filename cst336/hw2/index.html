@@ -4,7 +4,9 @@
   Date: 11/12/2025  
   Assignment: HW2 - US Geography Quiz 
   File: index.html  
-  Abstract:
+  Abstract: Creates a 10-question U.S. Geography Quiz using Bootstrap. 
+  Features varied input types, per-question feedback with check/X icons, 
+  total score and attempt tracking, and randomized choices via Underscore.
   -->
 
 <!DOCTYPE html>
@@ -15,25 +17,26 @@
     <title>US Geography Quiz</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="css/custom_styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/underscore@1.13.2/underscore-umd-min.js"> </script> 
 
 </head>
   <body class="text-center">
 
+    <main class="container">
     
       <h1 class="p-5 bg-info"> US Geography Quiz</h1>
 
       <br>
 
       <!-- Question 1 -->
-      <h3><span id = "markImg1"></span> What is the capital of California?”</h3>
+      <h3><span id = "markImg1"></span>1. What is the capital of California?</h3>
       <input type="text" id="q1">
       <br><br>
       <div id = "q1Feedback"></div>
       <br><br>
 
-
       <!-- Question 2 -->
-      <h3><span id = "markImg2"></span> What is the longest river?”</h3>
+      <h3><span id = "markImg2"></span>2. What is the longest river?</h3>
 
       <select id="q2">
         <option value="">Select One</option>
@@ -47,38 +50,97 @@
       <br><br>
 
       <!-- Question 3 -->
-
+      <h3><span id = "markImg3"></span>3. What presidents are carved into mount Rushmore?</h3>
+      <input type="checkbox" id="Jackson"> <label for = "Jackson" > A.Jackson</label>
+      <input type="checkbox" id="Franklin"> <label for = "Franklin" > B.Franklin</label>   
+      <input type="checkbox" id="Jefferson"> <label for = "Jefferson" > T.Jefferson</label>   
+      <input type="checkbox" id="Roosevelt"> <label for = "Roosevelt" > T.Roosevelt</label>
+      <br><br>
+      <div id="q3Feedback"></div>
+      <br><br>   
 
       <!-- Question 4 -->
-
+      <h3><span id="markImg4"></span>4. What is the smallest US State?</h3>
+      <div id="q4Choices"></div>      
+      <br><br>
+      <div id="q4Feedback"></div>
+      <br><br>
 
       <!-- Question 5 -->
+      <h3><span id="markImg5"></span>5. How many U.S. states border Mexico?</h3>
+      <input type="number" id="q5" min="1" max="10">
+      <br><br>
+      <div id="q5Feedback"></div>
+      <br><br>  
 
+      <!-- Question 6 -->
+      <h3><span id="markImg6"></span>6. In what year did Hawaii become a U.S. state?</h3>
+      <select id="q6">
+        <option value="">Select a year</option>
+        <option value="1803">1803</option>
+        <option value="1850">1850</option>
+        <option value="1898">1898</option>
+        <option value="1959">1959</option>
+      </select>
+      <br><br>
+      <div id="q6Feedback"></div>
+      <br><br>
 
-      <!-- Submit -->
+      <!-- Question 7 -->
+      <h3><span id="markImg7"></span>7. Which U.S. state has had the most presidents born there?</h3>
+      <div id="q7Choices"></div>      
+      <br><br>
+      <div id="q7Feedback"></div>
+      <br><br>
 
-      <h3 id="validationFdbk" class="bg-danger text-white"></h3>
-      <button  type="button" class="btn btn-info"> Submit Quiz</button>
+      <!-- Question 8 -->
+      <h3><span id="markImg8"></span>8. What is the largest lake in the United States?</h3>
+      <input list="lakeList" id="q8" name="q8" placeholder="Type or select a lake">
+        <datalist id="lakeList">
+          <option value="Lake Michigan">
+          <option value="Lake Huron">
+          <option value="Lake Superior">
+          <option value="Lake Erie">
+          <option value="Great Salt Lake">
+        </datalist>
+      <br><br>
+      <div id="q8Feedback"></div>
+      <br><br>
 
-      <br>
-      <h2 id = "totalScore" class="text-info"></h2>
-    
+      <!-- Question 9 -->
+      <h3><span id="markImg9"></span>9. How many U.S. states are landlocked?</h3>
+      <input type="number" id="q9" min="1" max="50">
+      <br><br>
+      <div id="q9Feedback"></div>
+      <br><br> 
 
+      <!-- Question 10 -->
+      <h3><span id="markImg10"></span>10. Which of the following U.S. states share a border with Canada?</h3>
 
-    <script src="js/script.js"></script> 
-  </body> 
+      <input type="checkbox" id="Michigan"> <label for="Michigan">Michigan</label>
+      <input type="checkbox" id="Montana"> <label for="Montana">Montana</label>
+      <input type="checkbox" id="Alaska"> <label for="Alaska">Alaska</label>
+      <input type="checkbox" id="Ohio"> <label for="Ohio">Ohio</label>
 
+      <br><br>
+      <div id="q10Feedback"></div>
+      <br><br>
 
-
-
-
-        <footer> 
-            <hr> CST336 Internet Programming. 2025&copy; Stalker<br> 
-            <strong>Disclaimer:</strong>The information in this webpage is fictitious.<br> 
-            <figure> <img src="img/csumb_logo.png" alt="CSUMB Logo"> </figure> 
-        </footer> 
-        </div> 
-
-        
-    
+    <!-- Submit -->
+    <h3 id="validationFdbk" class="bg-danger text-white"></h3>
+    <button  type="button" class="btn btn-info"> Submit Quiz</button>
+    <br>
+    <h2 id = "totalScore" class="text-info"></h2>
+    <h3 id = "totalAttempts"></h3>
+   
+  </main>
+  
+  <footer> 
+    <hr> CST336 Internet Programming. 2025&copy; Stalker<br> 
+    <strong>Disclaimer:</strong>The information in this webpage is fictitious.<br> 
+    <figure> <img src="img/csumb_logo.png" alt="CSUMB Logo"> </figure> 
+  </footer>
+  
+  <script src="js/script.js"></script>
+</body>         
 </html>

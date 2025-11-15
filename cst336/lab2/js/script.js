@@ -38,7 +38,7 @@
   async function displayCity(){
     let zipCode = document.querySelector("#zip").value;
     let zipError = document.querySelector("#zipError");
-    let url = `http://csumb.space/api/cityInfoAPI.php?zip=${zipCode}`;
+    let url = `https://csumb.space/api/cityInfoAPI.php?zip=${zipCode}`;
     let response = await fetch(url);
     let data = await response.json();
     console.log(data);
@@ -65,7 +65,7 @@ async function displayCounties(){
   let countyList = document.querySelector("#county");
   countyList.innerHTML = '<option value="">Select a county</option>'; 
 
-  let url = `http://csumb.space/api/countyListAPI.php?state=${state}`;
+  let url = `https://csumb.space/api/countyListAPI.php?state=${state}`;
   let response = await fetch(url);
   let data = await response.json();
   for (let i = 0; i < data.length; i++) {
@@ -97,7 +97,7 @@ displayStates();
   //4) Upon typing the username, a color-coded message indicates whether it is available or not (10 pts)
   async function checkUsername(){
     let username = document.querySelector("#username").value;
-    let url = `http://csumb.space/api/usernamesAPI.php?username=${username}`;
+    let url = `https://csumb.space/api/usernamesAPI.php?username=${username}`;
     let response = await fetch(url);
     let data = await response.json();
     let usernameError = document.querySelector("#usernameError");

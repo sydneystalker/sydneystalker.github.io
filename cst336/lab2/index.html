@@ -1,0 +1,62 @@
+<!-- 
+Author: Sydney Stalker
+Class: CST 336 - Internet Programing
+Date: 11/16/2025
+Assignment: Lab 2 - Sign Up Page
+File: index.html
+Abstract:
+ -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Sign Up Page </title>
+</head>
+
+<body>
+    <h1> Sign Up </h1>
+    <form id="signupForm" action="welcome.html">
+    First Name:<input type="text" name="fName"><br>
+    Last Name: <input type="text" name="lName"><br>
+    Gender:
+        <input type="radio" name="gender" value="m">Male<br>
+        <input type="radio" name="gender" value="f">Female<br>
+    Zip Code: <input type="text" id="zip" name="zip"><br>
+    City: <span id="city"></span> <br>
+    Latitude: <span id="latitude"></span> <br>
+    Longitude: <span id="longitude"></span> <br><br>
+    
+    State:
+    <select id="state" name="state">
+        <option>Select One</option>
+        <option value="ca">California</option>
+        <option value="ny">New York</option>
+        <option value="tx">Texas</option>
+        <option value="va">Virginia</option>
+    </select> <br>
+
+    Select a County: <select id="county"></select><br>
+
+    Desired Username:
+    <input type="text" id="username" name = "username"><br><br>
+    <span id="usernameError"></span><br>
+
+    Password: <input type="password">
+    <span id="suggestedPwd"></span><br>
+
+    Type Password Again: <input type="password"><br>
+    <span id="passwordError"></span><br>
+
+    <input type="submit" value="Sign up!">
+
+</form>
+
+    <footer> 
+        <hr> CST336 Internet Programming. 2025&copy; Stalker<br> 
+        <strong>Disclaimer:</strong>The information in this webpage is fictitious.<br> 
+        <figure> <img src="img/csumb_logo.png" alt="CSUMB Logo"> </figure> 
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

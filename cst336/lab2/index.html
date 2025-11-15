@@ -22,17 +22,14 @@ Abstract:
         <input type="radio" name="gender" value="m">Male<br>
         <input type="radio" name="gender" value="f">Female<br>
     Zip Code: <input type="text" id="zip" name="zip"><br>
+    <span id="zipError"></span><br>
     City: <span id="city"></span> <br>
     Latitude: <span id="latitude"></span> <br>
     Longitude: <span id="longitude"></span> <br><br>
     
     State:
     <select id="state" name="state">
-        <option>Select One</option>
-        <option value="ca">California</option>
-        <option value="ny">New York</option>
-        <option value="tx">Texas</option>
-        <option value="va">Virginia</option>
+        <option value="" >Select One</option>
     </select> <br>
 
     Select a County: <select id="county"></select><br>
@@ -41,10 +38,10 @@ Abstract:
     <input type="text" id="username" name = "username"><br><br>
     <span id="usernameError"></span><br>
 
-    Password: <input type="password">
+    Password: <input type="password" id="password">
     <span id="suggestedPwd"></span><br>
 
-    Type Password Again: <input type="password"><br>
+    Type Password Again: <input type="password" id="retypePassword"><br>
     <span id="passwordError"></span><br>
 
     <input type="submit" value="Sign up!">

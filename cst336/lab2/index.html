@@ -1,41 +1,74 @@
-<!-- 
+<!--  
 Author: Sydney Stalker
 Class: CST 336 - Internet Programing
 Date: 11/16/2025
 Assignment: Lab 2 - Sign Up Page
 File: index.html
-Abstract:
- -->
+Abstract: Interactive sign-up form styled with a custom palette. Uses CSUMB web APIs to
+auto-fill city/lat/long from ZIP, load all U.S. states on page load, and update counties by
+state. Validates username availability, password length (≥6), and password match; shows a
+“ZIP code not found” message when applicable; and suggests a password on focus. Includes an
+inclusive gender selection (with self-describe). On valid submit, redirects to welcome.html.
+-->
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title> Sign Up Page </title>
+  <meta charset="utf-8">
+  <title>Sign Up Page</title>
+  <link rel="stylesheet" href="css/custom_styles.css">
 </head>
 
 <body>
-    <h1> Sign Up </h1>
-    <form id="signupForm" action="welcome.html">
-    First Name:<input type="text" name="fName"><br>
+  <h1>Sign Up</h1>
+
+  <form id="signupForm" action="welcome.html">
+
+    First Name: <input type="text" name="fName"><br>
     Last Name: <input type="text" name="lName"><br>
-    Gender:
-        <input type="radio" name="gender" value="m">Male<br>
-        <input type="radio" name="gender" value="f">Female<br>
+
+    <!-- Inclusive Gender Section -->
+    <fieldset class="form-group" style="border:0; padding:0; margin:8px 0;">
+      <legend id="genderLegend" style="margin-bottom:6px;">Gender:</legend>
+
+      <div class="gender-row" role="radiogroup" aria-labelledby="genderLegend">
+        <label class="radio-chip">
+          <input type="radio" name="gender" value="female"> Female
+        </label>
+        <label class="radio-chip">
+          <input type="radio" name="gender" value="male"> Male
+        </label>
+        <label class="radio-chip">
+          <input type="radio" name="gender" value="nonbinary"> Non-binary
+        </label>
+        <label class="radio-chip">
+          <input type="radio" name="gender" value="notsay"> Prefer not to say
+        </label>
+        <label class="radio-chip">
+          <input type="radio" name="gender" value="self"> Self-describe
+        </label>
+
+        <span id="genderSelfWrap" class="gender-self" style="display:none;">
+          <input type="text" id="genderSelf" name="genderSelf" placeholder="Type here...">
+        </span>
+      </div>
+    </fieldset>
+
     Zip Code: <input type="text" id="zip" name="zip"><br>
     <span id="zipError"></span><br>
     City: <span id="city"></span> <br>
     Latitude: <span id="latitude"></span> <br>
     Longitude: <span id="longitude"></span> <br><br>
-    
+
     State:
     <select id="state" name="state">
-        <option value="" >Select One</option>
-    </select> <br>
+      <option value="">Select One</option>
+    </select><br>
 
     Select a County: <select id="county"></select><br>
 
     Desired Username:
-    <input type="text" id="username" name = "username"><br><br>
+    <input type="text" id="username" name="username"><br><br>
     <span id="usernameError"></span><br>
 
     Password: <input type="password" id="password">
@@ -45,15 +78,24 @@ Abstract:
     <span id="passwordError"></span><br>
 
     <input type="submit" value="Sign up!">
+  </form>
 
-</form>
+  <footer>
+    <hr>
+    CST336 Internet Programming. 2025&copy; Stalker<br>
+    <strong>Disclaimer:</strong> The information in this webpage is fictitious.<br>
+    <figure><img src="img/csumb_logo.png" alt="CSUMB Logo"></figure>
+  </footer>
 
-    <footer> 
-        <hr> CST336 Internet Programming. 2025&copy; Stalker<br> 
-        <strong>Disclaimer:</strong>The information in this webpage is fictitious.<br> 
-        <figure> <img src="img/csumb_logo.png" alt="CSUMB Logo"> </figure> 
-    </footer>
+  <script src="js/script.js"></script>
 
-    <script src="js/script.js"></script>
+  <script>
+    document.querySelectorAll('input[name="gender"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        const show = radio.value === 'self';
+        document.getElementById('genderSelfWrap').style.display = show ? 'inline-flex' : 'none';
+      });
+    });
+  </script>
 </body>
 </html>

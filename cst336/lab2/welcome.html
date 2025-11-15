@@ -1,36 +1,92 @@
-<!-- 
-Author: Sydney Stalker
-Class: CST 336 - Internet Programing
-Date: 11/16/2025
-Assignment: Lab 2 - Sign Up Page
-File: welcome.html
-Abstract:
- -->
+<!--
+  Author: Sydney Stalker
+  Class: CST 336 - Internet Programing
+  Date: 11/16/2025
+  Assignment: Lab 2 - Sign Up Page
+  File: welcome.html
+  Abstract: Displays a friendly confirmation after a successful sign up.
+-->
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title> Welcome </title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Welcome</title>
+  <link rel="stylesheet" href="css/custom_styles.css" />
+  <style>
+
+    .welcome-card{
+      width: 100%;
+      max-width: 720px;
+      margin: 32px auto 20px;
+      background: #fff;
+      border: 1px solid rgba(111,125,140,.18);
+      border-radius: 16px;
+      box-shadow: 0 10px 24px rgba(50,2,31,.08), 0 2px 6px rgba(0,0,0,.04);
+      padding: 28px;
+      text-align: center;
+    }
+    .welcome-title{
+      margin: 0 0 6px;
+      color: var(--mauve-shadow);
+      font-weight: 800;
+      letter-spacing: .3px;
+    }
+    .welcome-sub{
+      margin: 0 0 18px;
+      color: var(--dusty-lavender);
+    }
+    .welcome-kv{
+      display: inline-grid;
+      gap: 6px 14px;
+      grid-template-columns: auto auto;
+      text-align: left;
+      margin: 14px auto 6px;
+    }
+    .welcome-kv span:first-child{ color: var(--dusty-lavender); }
+    .cta{
+      margin-top: 18px;
+      display: inline-block;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, var(--midnight-violet), #2a011b);
+      color: #fff; font-weight: 700; text-decoration: none;
+      box-shadow: 0 8px 18px rgba(50,2,31,.22), inset 0 -2px 0 rgba(255,255,255,.06);
+    }
+  </style>
 </head>
 
-
-
-<h1> Congrats! Your account was created.  </h1>
 <body>
+  <main class="welcome-card" role="main">
+    <h1 class="welcome-title">Congrats! Your account was created 🎉</h1>
+    <p class="welcome-sub">Welcome aboard, <strong id="welcomeName">Friend</strong>!</p>
 
+    <div class="welcome-kv" aria-label="Account details">
+      <span>First name:</span><span id="kvName">—</span>
+      <span>Username:</span><span id="kvUser">—</span>
+    </div>
 
-    
-    
-    
+    <a class="cta" href="index.html">Back to Sign In</a>
+  </main>
 
+  <footer>
+    <hr>
+    CST336 Internet Programming. 2025&copy; Stalker<br>
+    <strong>Disclaimer:</strong> The information in this webpage is fictitious.<br>
+    <figure><img src="img/csumb_logo.png" alt="CSUMB Logo"></figure>
+  </footer>
 
-    <footer> 
-        <hr> CST336 Internet Programming. 2025&copy; Stalker<br> 
-        <strong>Disclaimer:</strong>The information in this webpage is fictitious.<br> 
-        <figure> <img src="img/csumb_logo.png" alt="CSUMB Logo"> </figure> 
-    </footer>
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const name   = params.get("fName") || "";
+      const user   = params.get("username") || "";
 
-    <script src="js/script.js"></script>
-
+      document.getElementById("welcomeName").textContent = name || "Friend";
+      document.getElementById("kvName").textContent = name || "—";
+      document.getElementById("kvUser").textContent = user || "—";
+    })();
+  </script>
 </body>
 </html>

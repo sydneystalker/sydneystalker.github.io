@@ -1,21 +1,33 @@
   /* 
   Author: Sydney Stalker  
   Class: CST 336 - Internet Programming  
-  Date: 11/1/2025  
+  Date: 11/16/2025  
   Assignment: Lab 2 - Sign Up Page 
   File: script.js  
-  Abstract: 
+  Abstract: Implements interactive behavior for the Sign Up page. Uses CSUMB Web APIs to display 
+  city and coordinates based on ZIP, load all U.S. states on page load, and update counties 
+  when a state is selected. Checks username availability, validates password length (≥6) and 
+  matching fields, and shows a "ZIP code not found" message when necessary. Includes a 
+  password suggestion feature and an inclusive gender selection that reveals a self-describe 
+  input when chosen. 
   */
 
   //Event Listeners
   document.querySelector("#zip").addEventListener("change",displayCity);
   document.querySelector("#state").addEventListener("change",displayCounties);
-  document.querySelector("#username").addEventListener("change",checkUsername);
+  document.querySelector("#username").addEventListener("input", checkUsername);
   document.querySelector("#signupForm").addEventListener("submit", function(event){
     validateForm(event);
   });
   document.querySelector("#retypePassword").addEventListener("input", validateForm);
   document.querySelector("#password").addEventListener("focus", displaySuggestedPassword);
+
+    document.querySelectorAll('input[name="gender"]').forEach(r => {
+    r.addEventListener('change', () => {
+        let show = r.value === 'self';
+        document.getElementById('genderSelfWrap').style.display = show ? 'inline-flex' : 'none';
+    });
+    });
 
 
   //Functions
@@ -47,40 +59,38 @@
   }
 
   //Displaying Counties from web API bases on the two-letter abbreviation of a state
-  //3) The list of counties is updated properly when selecting a State (10 pts)
-  async function displayCounties(){
-    let state = document.querySelector("#state").value;
-    let url = `http://csumb.space/api/countyListAPI.php?state=${state}`;
-    let response = await fetch(url);
-    let data = await response.json();
-    let countyList = document.querySelector("#county");
+  // 3) The list of counties is updated properly when selecting a State (10 pts)
+async function displayCounties(){
+  let state = document.querySelector("#state").value.toUpperCase();
+  let countyList = document.querySelector("#county");
+  countyList.innerHTML = '<option value="">Select a county</option>'; 
 
-    for(let i=0; i < data.length; i++){
-        countyList.innerHTML += `<option> ${data[i].county}</option>`;
-    }
-  }
-
-  //Displaying list of all US states when the page loads
-  // 6) When the page loads, the list of all US states is displayed in the dropdown menu (10pts)
-async function displayStates() {
-  let stateList = document.querySelector("#state");
-  stateList.innerHTML = '<option value="">Select One</option>';
-  try {
-    let response = await fetch("http://csumb.space/api/stateListAPI.php");
-    let data = await response.json();
-    for (let i = 0; i < data.length; i++) {
-      stateList.innerHTML += `<option value="${data[i].usps.toLowerCase()}">${data[i].state}</option>`;
-    }
-  } catch (err) {
-    console.error("State API failed:", err);
-    let fallback = ["AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"];
-    for (let code of fallback) {
-      stateList.innerHTML += `<option value="${code.toLowerCase()}">${code}</option>`;
-    }
+  let url = `http://csumb.space/api/countyListAPI.php?state=${state}`;
+  let response = await fetch(url);
+  let data = await response.json();
+  for (let i = 0; i < data.length; i++) {
+    countyList.innerHTML += `<option value="${data[i].county}">${data[i].county}</option>`;
   }
 }
 
+  //Displaying list of all US states when the page loads
+  // 6) When the page loads, the list of all US states is displayed in the dropdown menu (10pts)
+    async function displayStates() {
+    let url = "https://csumb.space/api/allStatesAPI.php";
+    let response = await fetch(url);
+    let data = await response.json();
+
+    let stateList = document.querySelector("#state");
+    stateList.innerHTML = '<option value="">Select One</option>'; 
+
+    for (let i = 0; i < data.length; i++) {
+        stateList.innerHTML += `<option value="${data[i].usps.toLowerCase()}">${data[i].state}</option>`;
+    }
+    }
+
+
 displayStates();
+
 
 
   //Check to see if the username is avaliable

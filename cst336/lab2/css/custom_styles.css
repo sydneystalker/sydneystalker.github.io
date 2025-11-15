@@ -1,0 +1,221 @@
+/* Author: Sydney Stalker
+   Class: CST 336 - Internet Programming
+   Date: 11/16/2025
+   Assignment: Lab 2 - Sign Up Page
+   File: custom_styles.css
+   Abstract: Polished styles for the Sign Up page using a cool violet/steel palette.
+
+   7) Page has a nice look and feel (uses Bootstrap or includes 20 CSS rules) (10 pts)
+*/
+
+/* ---------- Color system (from palette) ---------- */
+:root{
+  --midnight-violet: #32021F; /* primary */
+  --mauve-shadow:   #4B2E39; /* headings / emphasis */
+  --dusty-lavender: #6C596E; /* borders / subtle text */
+  --slate-grey:     #6F7D8C; /* card bg, outlines */
+  --cool-steel:     #77A0A9; /* accents, focus */
+
+  --bg: #f7f8fa;             /* page background */
+  --card: #ffffff;           /* surfaces */
+  --text: #1e1e24;           /* body text */
+}
+
+/* ---------- Base ---------- */
+*{ box-sizing: border-box; }
+
+html, body{
+  height: 100%;
+}
+
+body{
+  margin: 0;
+  padding: 24px;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color: var(--text);
+  background:
+    radial-gradient(1200px 800px at 10% -20%, rgba(119,160,169,.15), transparent 60%),
+    radial-gradient(900px 600px at 110% 10%, rgba(50,2,31,.10), transparent 60%),
+    var(--bg);
+  line-height: 1.4;
+}
+
+/* ---------- Heading ---------- */
+h1{
+  margin: 0 0 18px;
+  font-weight: 800;
+  letter-spacing: .3px;
+  color: var(--mauve-shadow);
+}
+
+/* ---------- Card form container ---------- */
+form#signupForm{
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto 20px;
+  background: var(--card);
+  border: 1px solid rgba(111,125,140,.18);
+  border-radius: 16px;
+  box-shadow:
+    0 10px 24px rgba(50,2,31,.08),
+    0 2px 6px rgba(0,0,0,.04);
+  padding: 24px;
+}
+
+/* group vertical rhythm */
+form#signupForm > *{
+  margin-bottom: 10px;
+}
+
+/* ---------- Labels & inline text ---------- */
+form#signupForm br{ line-height: 1.1; }
+
+label{
+  color: var(--dusty-lavender);
+}
+
+/* ---------- Inputs ---------- */
+input[type="text"],
+input[type="password"],
+select {
+  width: min(420px, 100%);
+  display: inline-block;
+  padding: 10px 12px;
+  border: 1px solid rgba(108,89,110,.55);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text);
+  outline: none;
+  transition: border-color .18s ease, box-shadow .18s ease, .18s ease;
+  margin-top: 6px;
+}
+
+
+/* stacked fields that follow labels on same line look better with a small left gap */
+input[type="text"] + br,
+input[type="password"] + br,
+select + br {}
+
+/* Focus states */
+input[type="text"]:focus,
+input[type="password"]:focus,
+select:focus{
+  border-color: var(--cool-steel);
+  box-shadow: 0 0 0 3px rgba(119,160,169,.25);
+}
+
+/* Radio/checkbox tint */
+input[type="radio"],
+input[type="checkbox"]{
+  accent-color: var(--midnight-violet);
+  transform: translateY(1px);
+}
+
+/* ---------- Helper spans / messages ---------- */
+#usernameError,
+#passwordError,
+#zipError{
+  font-size: .95rem;
+  margin-left: 8px;
+  /* JS sets red/green inline; default muted tint here */
+  color: var(--mauve-shadow);
+}
+
+#suggestedPwd{
+  font-size: .95rem;
+  color: var(--cool-steel);
+  margin-left: 8px;
+}
+
+/* ---------- Submit button ---------- */
+input[type="submit"]{
+  margin-top: 10px;
+  padding: 12px 18px;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  background: linear-gradient(180deg, var(--midnight-violet), #2a011b);
+  box-shadow: 0 8px 18px rgba(50,2,31,.22), inset 0 -2px 0 rgba(255,255,255,.06);
+  cursor: pointer;
+  transition: transform .06s ease, box-shadow .18s ease, filter .18s ease;
+}
+
+input[type="submit"]:hover{
+  filter: brightness(1.05);
+  box-shadow: 0 12px 26px rgba(50,2,31,.26);
+}
+
+input[type="submit"]:active{
+  transform: translateY(1px);
+}
+
+/* ---------- Footer ---------- */
+footer{
+  max-width: 720px;
+  margin: 26px auto 8px;
+  color: var(--dusty-lavender);
+}
+
+footer hr{
+  border: none;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(111,125,140,.45), transparent);
+  margin: 10px 0 14px;
+}
+
+footer figure{
+  margin: 10px 0 0;
+}
+
+footer img{
+  max-width: 140px;
+  height: auto;
+  filter: grayscale(.2);
+  opacity: .9;
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 520px){
+  body{ padding: 16px; }
+  form#signupForm{ padding: 18px; }
+  input[type="text"],
+  input[type="password"],
+  select{ width: 100%; }
+}
+
+/* Inline, chip-style radios for Gender */
+.gender-row{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  align-items: center;
+}
+
+.radio-chip{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: 1px solid rgba(108,89,110,.45);
+  border-radius: 9999px;
+  user-select: none;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.radio-chip:hover{
+  border-color: var(--cool-steel);
+  box-shadow: 0 0 0 3px rgba(119,160,169,.18);
+}
+
+.radio-chip input[type="radio"]{
+  accent-color: var(--midnight-violet);
+}
+
+.gender-self input[type="text"]{
+  width: 220px;
+  padding: 8px 10px;
+  border: 1px solid rgba(108,89,110,.55);
+  border-radius: 10px;
+}

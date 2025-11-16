@@ -1,0 +1,168 @@
+<!--
+  Author: Sydney Stalker
+  Class: CST 336 - Internet Programing
+  Date: 11/18/2025
+  Assignment: HW3 - 5e Spell & Monster Finder
+  File: index.html
+  Abstract: Search page for the 5e Finder. Users can search spells or monsters by keyword or filters
+  (spell level, concentration, CR range). Keyword input is optional; users may filter only.
+  Redirects to results.html with query parameters.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>5e Spell & Monster Finder</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/custom_styles.css">
+</head>
+<body>
+  <header>
+    <h1>5e Spell & Monster Finder</h1>
+    <p class="subtitle">Search spells or monsters from the public D&D 5e API</p>
+  </header>
+
+  <!-- Validation / status messages -->
+  <section id="messages" aria-live="polite">
+    <ul id="errors" class="errors" role="alert"></ul>
+    <p id="status" class="status"></p>
+  </section>
+
+  <!-- Search Form -->
+  <form id="searchForm" action="#" novalidate>
+    <!-- Type selection -->
+    <fieldset class="form-group" style="border:0; padding:0; margin:8px 0;">
+      <legend id="typeLegend" style="margin-bottom:6px;">Search for:</legend>
+      <div class="type-row" role="radiogroup" aria-labelledby="typeLegend">
+        <label class="radio-chip">
+          <input type="radio" name="type" value="spell" checked> Spells
+        </label>
+        <label class="radio-chip">
+          <input type="radio" name="type" value="monster"> Monsters
+        </label>
+      </div>
+    </fieldset>
+
+    <!-- Keyword -->
+    <label for="searchTerm">Keyword (optional):</label>
+    <input type="text" id="searchTerm" name="searchTerm" placeholder="e.g., fire, shield, goblin">
+    <span id="searchTermError" class="inline-error"></span>
+    <br>
+
+    <!-- Spell-only filters -->
+    <div id="spellFilters" class="filters">
+      <label for="level">Spell Level (0–9):</label>
+      <input type="number" id="level" name="level" min="0" max="9" step="1" placeholder="any">
+      <label class="checkbox-chip">
+        <input type="checkbox" id="concOnly" name="concOnly"> Concentration only
+      </label>
+    </div>
+
+    <!-- Monster-only filters -->
+    <div id="monsterFilters" class="filters" style="display:none;">
+      <label for="crMin">CR Min (0–30):</label>
+      <input type="number" id="crMin" name="crMin" min="0" max="30" step="0.25" placeholder="0">
+      <label for="crMax">CR Max (0–30):</label>
+      <input type="number" id="crMax" name="crMax" min="0" max="30" step="0.25" placeholder="30">
+      <span id="crError" class="inline-error"></span>
+    </div>
+
+    <div class="actions">
+      <button id="btnSearch" type="submit">Search</button>
+      <button id="btnClear" type="button">Clear</button>
+    </div>
+  </form>
+
+  <footer>
+    <hr>
+    CST336 Internet Programming. 2025&copy; Stalker<br>
+    <strong>Disclaimer:</strong> This site uses a public D&D 5e API for educational purposes.<br>
+    <figure><img src="imgs/csumb_logo.png" alt="CSUMB Logo"></figure>
+  </footer>
+
+  <!-- Page behavior: toggle filters & redirect with query params -->
+  <script>
+    // Toggle filter sections based on radio choice (like Lab behavior)
+    function setFilterVisibility() {
+      const type = document.querySelector('input[name="type"]:checked').value;
+      document.getElementById('spellFilters').style.display   = (type === 'spell') ? 'block' : 'none';
+      document.getElementById('monsterFilters').style.display = (type === 'monster') ? 'block' : 'none';
+    }
+    document.querySelectorAll('input[name="type"]').forEach(r => {
+      r.addEventListener('change', setFilterVisibility);
+    });
+    setFilterVisibility();
+
+    // Clear button
+    document.getElementById('btnClear').addEventListener('click', () => {
+      document.getElementById('searchForm').reset();
+      document.getElementById('errors').innerHTML = '';
+      document.getElementById('status').textContent = '';
+      setFilterVisibility();
+    });
+
+    // Simple inline validation helpers
+    function inlineError(sel, msg){ const el = document.querySelector(sel); if (el) el.textContent = msg; }
+    function clearErrors(){
+      document.getElementById('errors').innerHTML = '';
+      inlineError('#searchTermError',''); inlineError('#crError','');
+    }
+    function renderErrors(arr){
+      const ul = document.getElementById('errors'); ul.innerHTML = '';
+      arr.forEach(m => { const li = document.createElement('li'); li.textContent = m; ul.appendChild(li); });
+    }
+
+    // Build query string and redirect to results.html
+    document.querySelector("#searchForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      clearErrors();
+
+      const type = document.querySelector('input[name="type"]:checked').value;
+      const term = document.querySelector("#searchTerm").value.trim();
+      const level = document.querySelector("#level").value;
+      const conc  = document.querySelector("#concOnly").checked ? "1" : "";
+      const crMin = document.querySelector("#crMin").value;
+      const crMax = document.querySelector("#crMax").value;
+
+      const errors = [];
+
+      // Spell level validation
+      if (type === "spell" && level !== ""){
+        const n = Number(level);
+        if (!Number.isFinite(n) || n < 0 || n > 9 || !Number.isInteger(n)){
+          errors.push("Spell level must be an integer from 0 to 9.");
+          inlineError("#searchTermError","Spell level must be 0–9.");
+        }
+      }
+
+      // CR validation (fractional allowed)
+      if (type === "monster" && (crMin !== "" || crMax !== "")){
+        const a = crMin === "" ? 0 : Number(crMin);
+        const b = crMax === "" ? 30 : Number(crMax);
+        if (Number.isNaN(a) || Number.isNaN(b) || a < 0 || b > 30 || a > b){
+          errors.push("CR must be between 0 and 30 (supports .25, .5) and Min ≤ Max.");
+          inlineError("#crError","CR must be 0–30 (can include .25 or .5) and Min ≤ Max.");
+        }
+      }
+
+      if (errors.length){ renderErrors(errors); return; }
+
+      // Build query parameters
+      const params = new URLSearchParams();
+      params.set("type", type);
+      if (term) params.set("term", term);
+      if (type === "spell"){
+        if (level !== "") params.set("level", level);
+        if (conc) params.set("conc", "1");
+      } else {
+        if (crMin !== "") params.set("crMin", crMin);
+        if (crMax !== "") params.set("crMax", crMax);
+      }
+
+      // Redirect to results.html with query parameters
+      window.location.href = `results.html?${params.toString()}`;
+    });
+  </script>
+</body>
+</html>

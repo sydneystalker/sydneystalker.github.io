@@ -1,0 +1,43 @@
+<!--
+  Author: Sydney Stalker
+  Class: CST 336 - Internet Programing
+  Date: 11/18/2025
+  Assignment: HW3 - 5e Spell & Monster Finder
+  File: results.html
+  Abstract: Reads query params from the URL, fetches from D&D 5e API, and renders result cards.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Search Results • 5e Finder</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/custom_styles.css">
+</head>
+<body>
+  <header>
+    <h1>Search Results</h1>
+    <p class="subtitle"><a href="index.html">← New Search</a></p>
+  </header>
+
+  <section id="messages" aria-live="polite">
+    <ul id="errors" class="errors" role="alert"></ul>
+    <p id="status" class="status"></p>
+  </section>
+
+  <section id="resultsSection" aria-live="polite">
+    <h2 id="resultHeading" class="visually-hidden">Results</h2>
+    <p id="resultCount"></p>
+    <div id="resultsGrid" class="grid"></div>
+  </section>
+
+  <footer>
+    <hr>
+    CST336 Internet Programming. 2025&copy; Stalker<br>
+    <strong>Disclaimer:</strong> This site uses the public D&D 5e API.<br>
+    <figure><img src="imgs/csumb_logo.png" alt="CSUMB Logo"></figure>
+  </footer>
+
+  <script src="js/results.js"></script>
+</body>
+</html>

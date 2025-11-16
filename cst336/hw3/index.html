@@ -1,4 +1,4 @@
-<!--
+<!-- 
   Author: Sydney Stalker
   Class: CST 336 - Internet Programing
   Date: 11/18/2025
@@ -15,6 +15,7 @@
   <meta charset="utf-8">
   <title>5e Spell & Monster Finder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- RUBRIC: External CSS file -->
   <link rel="stylesheet" href="css/custom_styles.css">
 </head>
 <body>
@@ -23,15 +24,14 @@
     <p class="subtitle">Search spells or monsters from the public D&D 5e API</p>
   </header>
 
-  <!-- Validation / status messages -->
   <section id="messages" aria-live="polite">
     <ul id="errors" class="errors" role="alert"></ul>
     <p id="status" class="status"></p>
   </section>
 
-  <!-- Search Form -->
+  <!-- RUBRIC: Form element with multiple inputs for user interaction -->
   <form id="searchForm" action="#" novalidate>
-    <!-- Type selection -->
+
     <fieldset class="form-group" style="border:0; padding:0; margin:8px 0;">
       <legend id="typeLegend" style="margin-bottom:6px;">Search for:</legend>
       <div class="type-row" role="radiogroup" aria-labelledby="typeLegend">
@@ -44,13 +44,11 @@
       </div>
     </fieldset>
 
-    <!-- Keyword -->
     <label for="searchTerm">Keyword (optional):</label>
     <input type="text" id="searchTerm" name="searchTerm" placeholder="e.g., fire, shield, goblin">
     <span id="searchTermError" class="inline-error"></span>
     <br>
 
-    <!-- Spell-only filters -->
     <div id="spellFilters" class="filters">
       <label for="level">Spell Level (0–9):</label>
       <input type="number" id="level" name="level" min="0" max="9" step="1" placeholder="any">
@@ -59,12 +57,11 @@
       </label>
     </div>
 
-    <!-- Monster-only filters -->
     <div id="monsterFilters" class="filters" style="display:none;">
-      <label for="crMin">CR Min (0–30):</label>
-      <input type="number" id="crMin" name="crMin" min="0" max="30" step="0.25" placeholder="0">
-      <label for="crMax">CR Max (0–30):</label>
-      <input type="number" id="crMax" name="crMax" min="0" max="30" step="0.25" placeholder="30">
+      <label for="crMin">CR Min (.25, .5, .75, or 1–30 whole):</label>
+      <input type="number" id="crMin" name="crMin" min="0.25" max="30" step="0.25" placeholder=".25">
+      <label for="crMax">CR Max (.25, .5, .75, or 1–30 whole):</label>
+      <input type="number" id="crMax" name="crMax" min="0.25" max="30" step="0.25" placeholder="30">
       <span id="crError" class="inline-error"></span>
     </div>
 
@@ -81,20 +78,19 @@
     <figure><img src="imgs/csumb_logo.png" alt="CSUMB Logo"></figure>
   </footer>
 
-  <!-- Page behavior: toggle filters & redirect with query params -->
   <script>
-    // Toggle filter sections based on radio choice (like Lab behavior)
     function setFilterVisibility() {
       const type = document.querySelector('input[name="type"]:checked').value;
       document.getElementById('spellFilters').style.display   = (type === 'spell') ? 'block' : 'none';
       document.getElementById('monsterFilters').style.display = (type === 'monster') ? 'block' : 'none';
     }
+    // RUBRIC: Event listener (change)
     document.querySelectorAll('input[name="type"]').forEach(r => {
       r.addEventListener('change', setFilterVisibility);
     });
     setFilterVisibility();
 
-    // Clear button
+    // RUBRIC: Event listener (click)
     document.getElementById('btnClear').addEventListener('click', () => {
       document.getElementById('searchForm').reset();
       document.getElementById('errors').innerHTML = '';
@@ -102,7 +98,6 @@
       setFilterVisibility();
     });
 
-    // Simple inline validation helpers
     function inlineError(sel, msg){ const el = document.querySelector(sel); if (el) el.textContent = msg; }
     function clearErrors(){
       document.getElementById('errors').innerHTML = '';
@@ -113,7 +108,16 @@
       arr.forEach(m => { const li = document.createElement('li'); li.textContent = m; ul.appendChild(li); });
     }
 
-    // Build query string and redirect to results.html
+    // Helper: enforce CR values of .25, .5, .75, or whole numbers 1–30
+    function isValidCRString(v) {
+      if (v === "") return true; // empty allowed; we compare only when both provided
+      const n = Number(v);
+      if (!Number.isFinite(n)) return false;
+      if (n === 0.25 || n === 0.5 || n === 0.75) return true;
+      return Number.isInteger(n) && n >= 1 && n <= 30;
+    }
+
+    // RUBRIC: Event listener (submit)
     document.querySelector("#searchForm").addEventListener("submit", (e) => {
       e.preventDefault();
       clearErrors();
@@ -127,7 +131,7 @@
 
       const errors = [];
 
-      // Spell level validation
+      // RUBRIC: JS validation for form input (spell level must be integer 0–9)
       if (type === "spell" && level !== ""){
         const n = Number(level);
         if (!Number.isFinite(n) || n < 0 || n > 9 || !Number.isInteger(n)){
@@ -136,22 +140,26 @@
         }
       }
 
-      // CR validation (fractional allowed)
+      // RUBRIC: JS validation for form input (CR accepts .25, .5, .75, or whole 1–30; Min ≤ Max)
       if (type === "monster" && (crMin !== "" || crMax !== "")){
-        const a = crMin === "" ? 0 : Number(crMin);
-        const b = crMax === "" ? 30 : Number(crMax);
-        if (Number.isNaN(a) || Number.isNaN(b) || a < 0 || b > 30 || a > b){
-          errors.push("CR must be between 0 and 30 (supports .25, .5) and Min ≤ Max.");
-          inlineError("#crError","CR must be 0–30 (can include .25 or .5) and Min ≤ Max.");
+        if (!isValidCRString(crMin) || !isValidCRString(crMax)) {
+          errors.push("CR must be .25, .5, .75, or whole numbers 1–30.");
+          inlineError("#crError","Allowed: .25, .5, .75, or whole numbers 1–30.");
+        } else {
+          const a = crMin === "" ? 0.25 : Number(crMin);
+          const b = crMax === "" ? 30    : Number(crMax);
+          if (a > b) {
+            errors.push("CR Min must be ≤ CR Max.");
+            inlineError("#crError","CR Min must be ≤ CR Max.");
+          }
         }
       }
 
       if (errors.length){ renderErrors(errors); return; }
 
-      // Build query parameters
       const params = new URLSearchParams();
       params.set("type", type);
-      if (term) params.set("term", term);
+      if (term) params.set("term", term); // keyword optional
       if (type === "spell"){
         if (level !== "") params.set("level", level);
         if (conc) params.set("conc", "1");
@@ -160,7 +168,6 @@
         if (crMax !== "") params.set("crMax", crMax);
       }
 
-      // Redirect to results.html with query parameters
       window.location.href = `results.html?${params.toString()}`;
     });
   </script>

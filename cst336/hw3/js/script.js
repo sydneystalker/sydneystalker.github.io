@@ -1,15 +1,16 @@
-/* 
+/*  
   Author: Sydney Stalker
   Class: CST 336 - Internet Programming
   Date: 11/18/2025
   Assignment: HW3 - 5e Spell & Monster Finder
   File: js/app.js
   Abstract: Fetches data from the public D&D 5e API based on user input and displays
-  results as cards. Validates inputs (required keyword, spell level 0–9, monster CR range),
-  shows inline and summary errors, and provides loading/status messages.
+  results as cards. Validates inputs (required keyword, spell level 0–9, monster CR rules:
+  .25, .5, .75, or whole numbers 1–30; Min ≤ Max), shows inline and summary errors,
+  and provides loading/status messages.
 */
 
-
+// RUBRIC: At least one event listener (multiple below)
 document.querySelector("#searchForm").addEventListener("submit", onSearchSubmit);
 document.querySelector("#searchTerm").addEventListener("input", () => {
   document.querySelector("#searchTermError").textContent = "";
@@ -22,9 +23,16 @@ document.querySelector("#level").addEventListener("input", () => {
   if (el) el.addEventListener("input", () => (document.querySelector("#crError").textContent = ""));
 });
 
+// RUBRIC: Data retrieved from an existing Web API (D&D 5e)
+const API_BASE = "https://www.dnd5eapi.co";
+const MAX_RESULTS = 12;
 
-const API_BASE = "https://www.dnd5eapi.co"; 
-const MAX_RESULTS = 12; 
+/* Helper: validate CR is .25, .5, .75, or whole numbers 1–30 */
+function isValidCRValue(n) {
+  if (n === null || Number.isNaN(n)) return false;
+  if (n === 0.25 || n === 0.5 || n === 0.75) return true;
+  return Number.isInteger(n) && n >= 1 && n <= 30;
+}
 
 async function onSearchSubmit(e) {
   e.preventDefault();
@@ -34,32 +42,45 @@ async function onSearchSubmit(e) {
   setResultCount("");
   clearResults();
 
-  const type = document.querySelector('input[name="type"]:checked').value; 
+  const type = document.querySelector('input[name="type"]:checked').value;
   const term = document.querySelector("#searchTerm").value.trim();
   const levelStr = document.querySelector("#level").value;
   const level = levelStr === "" ? NaN : Number(levelStr);
-  const concOnly = document.querySelector("#concOnly").checked;
+  const concOnly = document.querySelector("#concOnly")?.checked;
 
-  const crMinStr = document.querySelector("#crMin").value;
-  const crMaxStr = document.querySelector("#crMax").value;
-  const crMin = crMinStr === "" ? 0 : Number(crMinStr);
-  const crMax = crMaxStr === "" ? 30 : Number(crMaxStr);
+  const crMinStr = document.querySelector("#crMin")?.value ?? "";
+  const crMaxStr = document.querySelector("#crMax")?.value ?? "";
+
+  // For comparison defaults: with new rules, default min should be 0.25 (not 0)
+  const crMin = crMinStr === "" ? 0.25 : Number(crMinStr);
+  const crMax = crMaxStr === "" ? 30    : Number(crMaxStr);
 
   const errors = [];
+
+  // (This app variant requires a keyword; if you make it optional, remove this.)
+  inlineError("#searchTermError", "");
   if (!term) {
     errors.push("Please enter a keyword.");
     inlineError("#searchTermError", "Keyword is required.");
   }
+
+  // RUBRIC: JS validation (spell level must be integer 0–9)
   if (type === "spell" && !Number.isNaN(level) && (level < 0 || level > 9 || !Number.isInteger(level))) {
     errors.push("Spell level must be an integer from 0 to 9.");
     inlineError("#searchTermError", "Spell level must be 0–9.");
   }
-  if (type === "monster") {
-    if (Number.isNaN(crMin) || Number.isNaN(crMax) || crMin < 0 || crMax > 30 || crMin > crMax) {
-      errors.push("CR must be between 0 and 30, and Min ≤ Max.");
-      inlineError("#crError", "CR must be 0–30 and Min ≤ Max.");
+
+  // RUBRIC: JS validation (CR must be .25, .5, .75, or whole 1–30; Min ≤ Max)
+  if (type === "monster" && (crMinStr !== "" || crMaxStr !== "")) {
+    if (!isValidCRValue(crMin) || !isValidCRValue(crMax)) {
+      errors.push("CR must be .25, .5, .75, or whole numbers 1–30.");
+      inlineError("#crError", "Allowed: .25, .5, .75, or whole numbers 1–30.");
+    } else if (crMin > crMax) {
+      errors.push("CR Min must be ≤ CR Max.");
+      inlineError("#crError", "CR Min must be ≤ CR Max.");
     }
   }
+
   if (errors.length) {
     renderErrors(errors);
     return;
@@ -67,6 +88,8 @@ async function onSearchSubmit(e) {
 
   try {
     setStatus("Loading…");
+
+    // RUBRIC: Fetch from an existing Web API (list endpoint)
     const listUrl =
       type === "spell"
         ? `${API_BASE}/api/spells?name=${encodeURIComponent(term)}`
@@ -84,6 +107,8 @@ async function onSearchSubmit(e) {
     }
 
     items = items.slice(0, MAX_RESULTS);
+
+    // RUBRIC: Additional fetch calls for item details
     const details = await Promise.all(
       items.map(async it => {
         const res = await fetch(API_BASE + it.url);
@@ -91,8 +116,10 @@ async function onSearchSubmit(e) {
         return res.json();
       })
     );
+
     const clean = details.filter(Boolean);
 
+    // Apply client-side filters
     let filtered = clean;
     if (type === "spell") {
       filtered = filtered.filter(s =>
@@ -102,7 +129,12 @@ async function onSearchSubmit(e) {
     } else {
       filtered = filtered.filter(m => {
         const cr = typeof m.challenge_rating === "number" ? m.challenge_rating : Number(m.challenge_rating);
-        return !Number.isNaN(cr) && cr >= crMin && cr <= crMax;
+        if (Number.isNaN(cr)) return false;
+
+        // Only enforce range if user gave any CR bound; defaults already set
+        const minOK = (crMinStr === "" ? true : cr >= crMin);
+        const maxOK = (crMaxStr === "" ? true : cr <= crMax);
+        return minOK && maxOK;
       });
     }
 
@@ -112,6 +144,7 @@ async function onSearchSubmit(e) {
       return;
     }
 
+    // RUBRIC: User-friendly display of API data (cards/grid handled by renderers + CSS)
     setResultCount(`${filtered.length} result${filtered.length === 1 ? "" : "s"} shown`);
     renderCards(filtered, type);
   } catch (err) {
@@ -261,8 +294,15 @@ function clearResults() {
   document.querySelector("#resultsGrid").innerHTML = "";
 }
 
+// (Only needed if this script runs on a page with the form + filters visible)
 (function initFilterVisibility() {
-  const type = document.querySelector('input[name="type"]:checked').value;
-  document.getElementById('spellFilters').style.display   = (type === "spell") ? 'block' : 'none';
-  document.getElementById('monsterFilters').style.display = (type === "spell") ? 'none'  : 'block';
+  const typeEl = document.querySelector('input[name="type"]:checked');
+  if (!typeEl) return;
+  const type = typeEl.value;
+  const spell = document.getElementById('spellFilters');
+  const mons  = document.getElementById('monsterFilters');
+  if (spell && mons) {
+    spell.style.display = (type === "spell") ? 'block' : 'none';
+    mons.style.display  = (type === "spell") ? 'none'  : 'block';
+  }
 })();

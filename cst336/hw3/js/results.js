@@ -1,31 +1,39 @@
-/* 
+/*  
   Author: Sydney Stalker
   Class: CST 336 - Internet Programming
   Date: 11/18/2025
   Assignment: HW3 - 5e Spell & Monster Finder
   File: js/results.js
   Abstract: Reads query parameters, fetches from the D&D 5e API, and renders results as cards.
-  Update: Supports empty keyword searches (e.g., "all level 5 spells" or "CR ≤ 2 monsters").
 */
 
 const API_BASE = "https://www.dnd5eapi.co";
-const MAX_RESULTS = 12;          // number of cards to render
-const FETCH_CONCURRENCY = 8;     // parallel detail fetches
+const MAX_RESULTS = 12;        
+const FETCH_CONCURRENCY = 8;     
 
 init();
+
+/* Helper: validate CR is .25, .5, .75, or whole numbers 1–30 */
+function isValidCR(n) {
+  if (n === null || n === undefined) return true; // absent is fine
+  if (!Number.isFinite(n)) return false;
+  if (n === 0.25 || n === 0.5 || n === 0.75) return true;
+  return Number.isInteger(n) && n >= 1 && n <= 30;
+}
 
 async function init() {
   clearErrors(); setStatus(""); setResultCount(""); clearResults();
 
   const q = new URLSearchParams(window.location.search);
-  const type  = (q.get("type") || "spell").toLowerCase(); // "spell" | "monster"
-  const term  = (q.get("term") || "").trim();             // optional now
+  const type  = (q.get("type") || "spell").toLowerCase(); 
+  const term  = (q.get("term") || "").trim();             
   const level = q.has("level") ? Number(q.get("level")) : NaN;
   const conc  = q.get("conc") === "1";
-  const crMin = q.has("crMin") ? Number(q.get("crMin")) : 0;
-  const crMax = q.has("crMax") ? Number(q.get("crMax")) : 30;
 
-  // Validate filters
+  // Read CR bounds only if present; otherwise keep them null so we can apply defaults later
+  const crMin = q.has("crMin") ? Number(q.get("crMin")) : null;
+  const crMax = q.has("crMax") ? Number(q.get("crMax")) : null;
+
   const errors = [];
   if (type === "spell" && !Number.isNaN(level)) {
     if (!Number.isInteger(level) || level < 0 || level > 9) {
@@ -33,8 +41,13 @@ async function init() {
     }
   }
   if (type === "monster") {
-    if (Number.isNaN(crMin) || Number.isNaN(crMax) || crMin < 0 || crMax > 30 || crMin > crMax) {
-      errors.push("CR must be 0–30 (supports .25, .5) and Min ≤ Max.");
+    // RUBRIC: JS validation for CR (.25, .5, .75, or whole 1–30) and Min ≤ Max
+    if (!isValidCR(crMin) || !isValidCR(crMax)) {
+      errors.push("CR must be .25, .5, .75, or whole numbers 1–30.");
+    } else {
+      const minVal = (crMin === null ? 0.25 : crMin);
+      const maxVal = (crMax === null ? 30    : crMax);
+      if (minVal > maxVal) errors.push("CR Min must be ≤ CR Max.");
     }
   }
   if (errors.length) { renderErrors(errors); return; }
@@ -42,12 +55,12 @@ async function init() {
   try {
     setStatus("Loading results… 🪄");
 
-    // Build list URL: if keyword present, use name filter; otherwise fetch full list
     const listUrl =
       type === "spell"
         ? `${API_BASE}/api/spells${term ? `?name=${encodeURIComponent(term)}` : ""}`
         : `${API_BASE}/api/monsters${term ? `?name=${encodeURIComponent(term)}` : ""}`;
 
+    // RUBRIC: At least one fetch() call to an existing Web API
     const listRes = await fetch(listUrl);
     if (!listRes.ok) throw new Error(`List request failed (${listRes.status})`);
     const listData = await listRes.json();
@@ -57,18 +70,25 @@ async function init() {
       setStatus(""); setResultCount("No matches found."); return;
     }
 
-    // Prepare filter predicates
     const spellFilter = (s) =>
       (Number.isNaN(level) || s.level === level) &&
       (!conc || (String(s.concentration).toLowerCase() === "yes" || s.concentration === true));
 
     const monsterFilter = (m) => {
       const cr = typeof m.challenge_rating === "number" ? m.challenge_rating : Number(m.challenge_rating);
-      return !Number.isNaN(cr) && cr >= crMin && cr <= crMax;
+      if (!Number.isFinite(cr)) return false;
+
+      // Enforce allowed CR set: .25, .5, .75, or whole 1–30
+      const allowed = (cr === 0.25 || cr === 0.5 || cr === 0.75 || (Number.isInteger(cr) && cr >= 1 && cr <= 30));
+      if (!allowed) return false;
+
+      // Apply bounds only if provided; otherwise default to [.25, 30]
+      const minVal = (crMin === null ? 0.25 : crMin);
+      const maxVal = (crMax === null ? 30    : crMax);
+      return cr >= minVal && cr <= maxVal;
     };
 
-    // Fetch details. If no keyword, we may need to scan through the list to find enough
-    // items that pass filters. We'll fetch in parallel batches to keep it responsive.
+    // RUBRIC: Additional fetch calls for item details (concurrency pool)
     const filtered = await fetchFilteredDetails({
       list,
       type,
@@ -82,6 +102,7 @@ async function init() {
       return;
     }
 
+    // RUBRIC: Web API data displayed in a user-friendly format (count + grid of cards)
     setResultCount(`${filtered.length} result${filtered.length === 1 ? "" : "s"} shown`);
     renderCards(filtered, type);
   } catch (err) {
@@ -91,12 +112,10 @@ async function init() {
   }
 }
 
-/* --------------------------- Detail Fetch with Filtering --------------------------- */
 async function fetchFilteredDetails({ list, type, wantCount, predicate }) {
   const results = [];
   const urls = list.map(it => API_BASE + it.url);
 
-  // Process in parallel with a simple concurrency pool
   let i = 0;
   async function worker() {
     while (i < urls.length && results.length < wantCount) {
@@ -110,7 +129,7 @@ async function fetchFilteredDetails({ list, type, wantCount, predicate }) {
           results.push(data);
         }
       } catch {
-        // ignore failed item
+        // ignore individual fetch failures
       }
     }
   }
@@ -118,11 +137,9 @@ async function fetchFilteredDetails({ list, type, wantCount, predicate }) {
   const pool = Array.from({ length: Math.min(FETCH_CONCURRENCY, urls.length) }, worker);
   await Promise.all(pool);
 
-  // If no predicate (shouldn’t happen here), just return first N; otherwise already filtered
   return results.slice(0, wantCount);
 }
 
-/* --------------------------- Rendering --------------------------- */
 function renderCards(items, type) {
   const grid = document.querySelector("#resultsGrid");
   grid.innerHTML = "";
@@ -180,7 +197,6 @@ function renderMonsterCard(m) {
   return card;
 }
 
-/* --------------------------- Helpers --------------------------- */
 function el(tag, attrs = {}, ...children){
   const n = document.createElement(tag);
   Object.entries(attrs).forEach(([k,v]) => n.setAttribute(k,v));

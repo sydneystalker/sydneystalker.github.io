@@ -1,0 +1,220 @@
+/* 
+  Author: Sydney Stalker
+  Class: CST 336 - Internet Programing
+  Date: 11/20/2025
+  Assignment: Midterm Practice
+  File: styles.css
+  Palette: Bold Berry
+  #F9DBBD | #FFA5AB | #DA627D | #A53860 | #450920
+*/
+
+/* ====== Base ====== */
+* {
+  box-sizing: border-box; /* Ensures padding and border are included in element width */
+  font-family: "Poppins", "Open Sans", Arial, sans-serif; /* Sets font for the whole page */
+}
+
+body {
+  margin: 0; /* Removes default body margin */
+  padding: 0; /* Removes default padding */
+  background-color: #450920; /* Deep berry background */
+  color: #fff; /* White text color */
+  text-align: center; /* Centers text globally */
+  min-height: 100vh; /* Ensures full viewport height */
+  background-size: cover; /* Background image covers entire area */
+  background-position: center; /* Centers the background image */
+  background-repeat: no-repeat; /* Prevents image repetition */
+}
+
+/* translucent content panel */
+main.container {
+  background-color: rgba(69, 9, 32, 0.7); /* Semi-transparent dark overlay for readability */
+  padding: 2rem; /* Adds space inside the container */
+  margin: 2rem auto; /* Centers container on page */
+  max-width: 800px; /* Restrains container width */
+  border-radius: 10px; /* Soft rounded corners */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4); /* Shadow for depth */
+}
+
+/* ====== Typography ====== */
+h1, h2, h3 {
+  margin-top: 0; /* Removes top margin for headings */
+  color: #F9DBBD; /* Light peach color for headings */
+}
+
+#quote {
+  font-size: 1.6rem; /* Slightly larger font for quotes */
+  font-style: italic; /* Italic style for quotes */
+  font-weight: 600; /* Semi-bold for emphasis */
+  color: #FFA5AB; /* Soft pink color for quote text */
+  margin-bottom: 0.25rem; /* Small space below quote */
+}
+
+#author {
+  font-style: italic; /* Italic style for author name */
+  color: #F9DBBD; /* Light peach text color */
+  margin-bottom: 1rem; /* Space below author name */
+}
+
+/* ====== Buttons ====== */
+button {
+  background-color: #DA627D; /* Medium pink button color */
+  color: #fff; /* White text for contrast */
+  border: none; /* Removes default border */
+  border-radius: 6px; /* Rounded button edges */
+  padding: 0.5rem 1rem; /* Adds space inside buttons */
+  cursor: pointer; /* Changes cursor to pointer on hover */
+  font-size: 1rem; /* Normal font size for buttons */
+}
+
+button:hover {
+  background-color: #A53860; /* Darker shade on hover */
+}
+
+#showAuthorBtn {
+  background-color: transparent; /* Transparent background initially */
+  border: 2px solid #FFA5AB; /* Pink border outline */
+  color: #FFA5AB; /* Matches border color */
+  margin-top: 0.5rem; /* Space above button */
+}
+
+#showAuthorBtn:hover {
+  background-color: #FFA5AB; /* Fills with pink on hover */
+  color: #450920; /* Dark text for contrast when filled */
+}
+
+/* ====== Author Info ====== */
+.two-col {
+  display: flex; /* Places elements side by side */
+  justify-content: center; /* Centers them horizontally */
+  align-items: flex-start; /* Aligns them at the top */
+  gap: 1.5rem; /* Space between columns */
+  margin-top: 1rem; /* Adds top spacing */
+  text-align: left; /* Aligns text to left inside columns */
+}
+
+#authorPic {
+  max-width: 150px; /* Restrains image size */
+  border-radius: 8px; /* Softens edges of author photo */
+  border: 3px solid #DA627D; /* Adds pink border around image */
+}
+
+#authorBio {
+  line-height: 1.4; /* Improves text readability */
+  color: #F9DBBD; /* Light peach for bio text */
+}
+
+/* ====== Translation Section ====== */
+.lang-option {
+  display: inline-flex; /* Aligns radio and label side by side */
+  align-items: center; /* Centers them vertically */
+  gap: 0.25rem; /* Small space between radio and flag */
+  margin: 0.25rem 0.5rem; /* Space around each language option */
+  color: #F9DBBD; /* Light peach for text */
+}
+
+.lang-option img {
+  vertical-align: middle; /* Keeps flags aligned with text */
+}
+
+.translation {
+  display: flex; /* Places flag and translation next to each other */
+  align-items: center; /* Aligns them vertically */
+  justify-content: center; /* Centers horizontally */
+  gap: 1rem; /* Space between flag and text */
+  margin-top: 1rem; /* Space above section */
+}
+
+#flag {
+  width: 64px; /* Consistent flag size */
+  height: auto; /* Maintains aspect ratio */
+  border-radius: 6px; /* Rounded flag corners */
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.4); /* Glow effect */
+}
+
+/* ====== Multiple Quotes ====== */
+.error {
+  color: #FFA5AB; /* Red/pink for error text */
+  font-weight: bold; /* Emphasized errors */
+  margin-top: 0.25rem; /* Space above error text */
+}
+
+.quotes-grid {
+  display: grid; /* Grid layout for multiple quotes */
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Responsive columns */
+  gap: 1rem; /* Space between cards */
+  margin-top: 1rem; /* Adds spacing above */
+}
+
+.quote-card {
+  background-color: rgba(218, 98, 125, 0.15); /* Slightly transparent pink */
+  border: 1px solid rgba(249, 219, 189, 0.4); /* Light border for definition */
+  border-radius: 10px; /* Rounded edges */
+  padding: 0.75rem; /* Space inside card */
+  color: #fff; /* White text for readability */
+}
+
+.quote-card blockquote {
+  font-style: italic; /* Italicized quotes */
+  margin: 0; /* Removes default spacing */
+  color: #FFA5AB; /* Pink text for quotes */
+}
+
+.quote-card .by {
+  text-align: right; /* Align author name to right */
+  font-weight: 600; /* Bold author names */
+  margin-top: 0.5rem; /* Space above author line */
+  color: #F9DBBD; /* Light peach text color */
+}
+
+/* ====== Inputs ====== */
+input[type="number"] {
+  width: 60px; /* Small box width */
+  padding: 0.25rem; /* Inside spacing */
+  margin-left: 0.5rem; /* Space beside label */
+  border-radius: 4px; /* Slightly rounded corners */
+  border: 1px solid #F9DBBD; /* Light border color */
+  text-align: center; /* Centers number text */
+  background-color: #fff; /* White background for readability */
+  color: #450920; /* Dark text color for contrast */
+}
+
+#getQuotesBtn {
+  background-color: #A53860; /* Dark berry color button */
+  border: none; /* Removes outline */
+  color: #fff; /* White text */
+  margin-left: 0.5rem; /* Space from input */
+}
+
+#getQuotesBtn:hover {
+  background-color: #DA627D; /* Lighter shade when hovered */
+}
+
+/* ====== Footer ====== */
+footer {
+  margin-top: 1rem; /* Space above footer */
+  font-size: 0.85rem; /* Smaller font size */
+  color: #F9DBBD; /* Light text color */
+}
+
+/* ====== Rubric Table ====== */
+table {
+  margin: 2rem auto; /* Centers the table */
+  background: white; /* Solid white background */
+  color: black; /* Black text for contrast */
+  border: 1px solid #333; /* Outline for clarity */
+  border-collapse: collapse; /* Removes double borders */
+  width: 80%; /* Responsive table width */
+  max-width: 700px; /* Prevents table from getting too wide */
+}
+
+th, td {
+  padding: 8px 10px; /* Adds space inside cells */
+  border: 1px solid #333; /* Visible borders between cells */
+  text-align: left; /* Aligns text to left in all cells */
+}
+
+th {
+  background: #f2f2f2; /* Light gray header background */
+  font-weight: bold; /* Bold header text */
+}

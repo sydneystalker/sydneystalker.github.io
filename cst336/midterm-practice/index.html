@@ -1,0 +1,160 @@
+<!-- 
+  Author: Sydney Stalker
+  Class: CST 336 - Internet Programing
+  Date: 11/20/2025
+  Assignment: Midterm Practice
+  File: index.html
+  Abstract: Implements a Famous Quotes web app:
+    (1) shows a random quote/author on load,
+    (2) reveals author bio + photo in a two-column flex layout,
+    (3) renders language radios in random order,
+    (4) translates the quote and shows the chosen flag,
+    (5) fetches 1–5 quotes on demand,
+    (6) sets a random Pixabay background each refresh.
+-->
+
+<!-- RUBRIC (kept here and updated) 
+1  Random quote + author on load ........................................ 20 (Required)
+2  Author bio + picture shown on "Display Author Info" .................. 15
+3  Bio + picture use two-column flex layout ............................. 10
+4  Language radios appear in random order each reload ................... 20
+5  Corresponding language flag shown on "Translate" ..................... 20
+6  Quote translated to selected language on "Translate" ................. 20
+7  Error in red if "Number of Quotes" not in 1–5 or blank ............... 20
+8  Show N (1–5) quotes + authors on "Get Quotes" ........................ 20
+9  Random background image via provided Web API on reload ............... 20
+10 This rubric included AND UPDATED ..................................... 3
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Midterm Practice — Famous Quotes</title>
+
+  <!-- Styles & App -->
+  <link rel="stylesheet" href="css/styles.css" />
+  <script src="js/app.js" defer></script>
+</head>
+
+<body>
+  <header class="site-header">
+    <h1>Famous Quotes</h1>
+  </header>
+
+  <main class="container">
+    <!-- Step 1: Random quote + author -->
+    <section id="quoteCard" class="card">
+      <p id="quote" aria-live="polite">Loading…</p>
+      <p id="author"></p>
+      <button id="showAuthorBtn" type="button">Display Author Info</button>
+    </section>
+
+    <!-- Step 2 & 3: Author info (two-column layout via CSS flex/grid) -->
+    <section id="authorInfo" class="two-col card" hidden>
+      <div class="author-photo">
+        <img id="authorPic" alt="Author photo" hidden>
+      </div>
+      <div class="author-bio">
+        <h3 id="authorName"></h3>
+        <p id="authorBio"></p>
+      </div>
+    </section>
+
+    <!-- Step 3 & 4 & 6: Languages + Translate -->
+    <section id="langSection" class="card">
+      <h3>Translate Quote</h3>
+      <form id="langForm" class="lang-form" aria-label="Language options"></form>
+      <button id="translateBtn" type="button">Translate</button>
+
+      <div id="translationArea" class="translation">
+        <img id="flag" alt="" hidden />
+        <p id="translatedQuote" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <!-- Step 5 & 7 & 8: Multiple quotes -->
+    <section id="multiSection" class="card">
+      <h3>Get Multiple Quotes</h3>
+      <label for="qty">How many (1–5)?</label>
+      <input id="qty" type="number" min="1" max="5" step="1" placeholder="1–5" />
+      <button id="getQuotesBtn" type="button">Get Quotes</button>
+      <p id="qtyError" class="error" aria-live="polite"></p>
+
+      <div id="multiResults" class="quotes-grid" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <!-- RUBRUC -->
+   
+<table border="1" width="600" cellpadding="10px">
+<tbody><tr><th>#</th><th>Task Description</th><th>Points</th></tr>
+    <tr style="color:green">
+    <td>1</td>
+    <td>A random quote and corresponding author is displayed when loading the page <br></td>
+    <td width="20" align="center">20</td>
+    </tr>     
+    <tr style="color:red">
+    <td>2</td>
+    <td>The author's bio and picture is displayed when clicking on the "Display Author Info" button<br>
+    </td>
+    <td width="20" align="center">15</td>
+</tr>     
+    <tr style="color:red">
+    <td>3</td>
+    <td>The author's bio and picture are displayed in a two-column layout using a flex box <br></td>
+    <td width="20" align="center">10</td>
+</tr>     
+    <tr style="color:red">
+    <td>4</td>
+    <td>The language choices (radio buttons) are displayed in a random order every time the page is reloaded <br></td>
+    <td width="20" align="center">20</td>
+</tr>     
+    <tr style="color:red">
+    <td>5</td>
+    <td>The corresponding language flag is displayed when clicking on the "Translate" button<br></td>
+    <td width="20" align="center">20</td>
+</tr>
+    <tr style="color:red">
+    <td>6</td>
+    <td>The random quote displayed is translated into the language selected when clicking on the "Translate" button<br></td>
+    <td width="20" align="center">20</td>
+</tr> 
+        <tr style="color:red">
+    <td>7</td>
+    <td>An error message in red is displayed if the value entered in the "Number of Quotes" text box is not between 1 and 5 or if it's left blank<br></td>
+    <td width="20" align="center">20</td>
+</tr>                     
+<tr style="color:red">
+    <td>8</td>
+    <td>The specified number of quotes and corresponding authors (1 to 5) are displayed when clicking on the "Get Quotes" button <br></td>
+    <td width="20" align="center">20</td>
+</tr>   
+
+<tr style="color:red">
+    <td>9</td>
+    <td>A random background image is displayed every time the page is reloaded using the Web API provided </td>
+    <td width="20" align="center">20</td>
+</tr>
+
+<tr style="color:green">
+    <td>10</td>
+    <td>This rubric is properly included AND UPDATED</td>
+    <td width="20" align="center">3</td>
+</tr>
+    
+    <tr>
+    <td></td>
+    <td>T O T A L </td>
+    <td width="20" align="center">&nbsp;</td>
+</tr> 
+</tbody></table>
+
+  <footer class="site-footer">
+    <p>© 2025 Sydney Stalker • CST 336</p>
+  </footer>
+</body>
+</html>
+
+

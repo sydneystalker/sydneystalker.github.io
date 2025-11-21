@@ -1,0 +1,47 @@
+<!--
+  Author: Sydney Stalker
+  Class: CST 336 - Internet Programming
+  File: index.html
+  Abstract: Minimal page that fetches data from a Web API and displays it.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>API Demo (Starter)</title>
+
+  <!-- Link to stylesheet -->
+  <link rel="stylesheet" href="css/styles.css" />
+
+  <!-- Load JS after HTML parses so elements exist when we query them -->
+  <script src="js/app.js" defer></script>
+</head>
+
+<body>
+  <!-- Simple page title -->
+  <header>
+    <h1>Basic Web API Fetch</h1>
+    <p class="sub">Click the button to load data from the API.</p>
+  </header>
+
+  <!-- Where the app content lives -->
+  <main class="container">
+    <!-- Trigger to fetch data; you can also auto-load in JS if desired -->
+    <button id="loadBtn" type="button">Load Data</button>
+
+    <!-- Lightweight status + error areas (ARIA live for accessibility) -->
+    <p id="status" aria-live="polite"></p>
+    <p id="error"  aria-live="polite"></p>
+
+    <!-- Results go here (cards/rows/etc.) -->
+    <section id="results"></section>
+  </main>
+
+  <!-- footer-->
+  <footer>
+    <small>© 2025 Sydney Stalker • CST 336</small>
+  </footer>
+</body>
+</html>

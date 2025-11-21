@@ -1,0 +1,94 @@
+/*
+  Author: Sydney Stalker
+  File: css/styles.css
+  Abstract: Minimal, readable styles for an API demo page.
+*/
+
+/* Overall page defaults (system font, some breathing room) */
+:root { --max: 920px; }
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  line-height: 1.5;
+  color: #222;
+  background: #f7f7f7;
+}
+
+/* Top header with a little spacing */
+header {
+  padding: 2rem 1rem 0.25rem;
+  text-align: center;
+}
+header .sub { color: #555; margin-top: .25rem; }
+
+/* Main content area constrained to a readable width */
+.container {
+  max-width: var(--max);
+  margin: 1rem auto 2rem;
+  padding: 1rem;
+}
+
+/* Simple primary button */
+button {
+  padding: .55rem .9rem;
+  border: 1px solid #1a73e8;
+  background: #1a73e8;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+button:hover { filter: brightness(1.05); }
+
+/* Center the Load Data button */
+#loadBtn {
+  display: block;          /* makes the button behave like a block element */
+  margin: 1rem auto;       /* auto margins horizontally center it */
+}
+
+/* Status + error text blocks */
+#status { margin:.5rem 0; color:#333; }
+#error  { margin:.25rem 0; color:#b00020; }
+
+/* Result cards */
+#results { margin-top: .75rem; }
+.card {
+  background: #fff;
+  border: 1px solid #e3e3e3;
+  border-radius: 8px;
+  padding: .75rem .9rem;
+  margin: .5rem 0;
+  box-shadow: 0 1px 2px rgba(0,0,0,.04);
+}
+.card-title  { margin: 0 0 .25rem; font-size: 1.05rem; }
+.card-detail { margin: 0; color: #444; }
+
+/* Footer */
+footer {
+  padding: 1.5rem 1rem 2rem;
+  text-align: center;
+  color: #666;
+}
+
+/* Make footer stick to bottom when content is short */
+html, body {
+  height: 100%;               /* take up full viewport height */
+  margin: 0;
+}
+
+body {
+  display: flex;              /* use flexbox for vertical layout */
+  flex-direction: column;     /* stack header, main, footer vertically */
+}
+
+main.container {
+  flex: 1;                    /* grow to fill available space */
+}
+
+footer {
+  margin-top: auto;           /* push footer to bottom when space allows */
+  padding: 1.5rem 1rem 2rem;
+  text-align: center;
+  color: #666;
+}
+

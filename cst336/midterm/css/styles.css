@@ -1,0 +1,82 @@
+:root { --max: 920px; }
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  line-height: 1.5;
+  color: #222;
+  background: #f7f7f7;
+}
+
+/* header */
+header {
+  padding: 2rem 1rem 0.25rem;
+  text-align: center;
+}
+
+header .sub { color: #1a1898; margin-top: .25rem; }
+
+.container {
+  max-width: var(--max);
+  margin: 1rem auto 2rem;
+  padding: 1rem;
+}
+
+/* video */
+#videoSection iframe{
+    max-width: 100%;
+    border-radius: 8px;
+}
+
+#likesSection {
+    margin-top: 1rem;
+    font-size: 1rem
+}
+
+#likesWrap img{
+    vertical-align: middle;
+}
+
+/* button */
+
+button {
+  padding: .55rem .9rem;
+  border: 1px solid #1a73e8;
+  background: #1a73e8;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+button:hover { filter: brightness(1.05); }
+
+
+
+
+
+
+
+
+
+
+
+/* footer */
+html, body {
+  height: 100%;               /* take up full viewport height */
+  margin: 0;
+}
+
+body {
+  display: flex;              /* use flexbox for vertical layout */
+  flex-direction: column;     /* stack header, main, footer vertically */
+}
+
+main.container {
+  flex: 1;                    /* grow to fill available space */
+}
+
+footer {
+  margin-top: auto;           /* push footer to bottom when space allows */
+  padding: 1.5rem 1rem 2rem;
+  text-align: center;
+  color: #666;
+}

@@ -1,8 +1,7 @@
 /*
   Author: Sydney Stalker
   File: js/app.js
-  Abstract: Minimal pattern to fetch from a Web API and render the results.
-            Keep it simple: one endpoint, one button, one render function.
+  Abstract: Midterm practice
 */
 
 // ===== 1) SET YOUR ENDPOINT HERE =====
@@ -17,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // If you prefer auto-load on page open, uncomment:
   // loadData();
 });
+
 
 // ===== 3) FETCH DATA FROM THE API =====
 function loadData() {

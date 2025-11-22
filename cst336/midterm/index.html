@@ -1,0 +1,161 @@
+<!-- 
+  Author: Sydney Stalker
+  Class: CST 336 - Internet Programing
+  Date: 11/20/2025
+  Assignment: Midterm 
+  File: index.html
+  Abstract: 
+    (1) Start by embedding a YouTube video within an iframe
+    (2) Make an AJAX call using the following endpoint. 
+    (3) Update the number of likes by using the following endpoint:
+    (4) When clicking on the "Comments" button, 
+    retrieve the comments from the following API and display them including the author, date, and the ratings using stars.
+    (5) When clicking on the "Question" button, display a "What's this video about?" question with a dropdown menu.
+    Do not include a button. When selecting an answer, display color-coded feedback. Hide the comments.
+    (6) When clicking on the "Report" button, use the API below to get a list of reporting reasons. Display them using radio buttons in a random order. 
+    Include a "Submit Report" button at the bottom of the list. Display the reason selected when clicking on the "Submit Report" button.
+-->
+
+<!-- 
+I know I did not hit most /if any of the required functions, 
+but ran out of time and decided it was better to have something turned in rather than nothing. 
+I am not very good under pressure:( sorry this is subpar work)
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OtterTube</title>
+
+  <!-- Link to stylesheet -->
+  <link rel="stylesheet" href="css/styles.css" />
+  <script src="js/app.js" defer></script>
+</head>
+
+<body>
+  <!-- Step 1 -->
+    <header>
+        <h1 class="row" >Otter Tube</h1>
+    </header>
+
+<main class="container">
+<!--load the video -->
+    <section id="video">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/a_xpPdWWTMQ?si=Cy0QyomVCUq7gX1W" 
+        title="YouTube video player" frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        referrerpolicy="strict-origin-when-cross-origin" 
+        allowfullscreen></iframe>
+    </section>
+
+    <!-- 2 and 3 Show inital likes and then update -->
+    <section id="likesSection">
+        <div id="likesWrap">
+            <img src="img/like.png" alt="Like Icon" width="30" height="30">
+            <span id="likesCount"> - </span>
+        </div>
+    </section> 
+
+
+    <!-- (buttons)-->
+    <section id="buttons" class="row">
+        <button id="likeButton" type="button">Like</button>
+        <button id="unlikeButton" type="button">Cancel Like</button>
+        <button id="commentButton" type="button">Comment</button>
+        <button id="questionButton" type="button">Question</button>
+        <button id="reportButton" type="button">Report</button>
+    </section>
+
+<!-- 4 comments -->
+ <section id="comments" class="hidden"></section>
+
+<!-- 5 questions -->
+<section id="questions" class="hidden"></section>
+
+<!-- 6 report -->
+ <section id="report" class="hidden"></section>
+
+
+</main>
+  <!-- footer-->
+  <footer>
+    <small>© 2025 Sydney Stalker • CST 336</small>
+  </footer>
+</body>
+</html>
+
+
+
+ <!-- RUBRUC -->
+
+   
+                  <table border="1" width="800" cellpadding="10px">
+                    <tbody><tr><th>#</th><th>Task Description</th><th>Points</th></tr>
+        
+                     <tr style="color:green">
+                      <td>1</td>
+                      <td>Initial number of likes is displayed from API after  page loads<br>
+                        </td>
+                      <td width="20" align="center">20</td>
+                    </tr>     
+                     <tr style="color:red">
+                      <td>2</td>
+                      <td>When clicking on either like button, the button is hidden and the other blue/grayedout button is displayed <br></td>
+                      <td width="20" align="center">15</td>
+                    </tr>     
+                     <tr style="color:red">
+                      <td>3</td>
+                      <td>When clicking on the like/cancel like buttons, the corresponding updated value is displayed from the API <br></td>
+                      <td width="20" align="center">20</td> 
+                    </tr>     
+                     <tr style="color:red">
+                      <td>4</td>
+                      <td>When clicking on "Comments", author, date, and comment are displayed from API in the following format:
+                      	 <br> <b>Author</b> <i>Date</i><br>Comment<br></td>
+                      <td width="20" align="center">30</td>
+                    </tr>     
+                
+                     <tr style="color:red">
+                      <td>5</td>
+                      <td>When clicking on "Comments", stars are displayed based on the RATING value<br></td>
+                      <td width="20" align="center">15</td>
+                    </tr> 
+                  <tr style="color:red">
+                      <td>6</td>
+                      <td>When clicking on "Question" a dropdown question is displayed <br></td>
+                      <td width="20" align="center">15</td>
+                    </tr>    
+                  <tr style="color:red">
+                      <td>7</td>
+                      <td>When answering the question, color-coded feedback is displayed <br></td>
+                      <td width="20" align="center">15</td>
+                    </tr>  
+                    <tr style="color:red">
+                      <td>8</td>
+                      <td>When clicking on "Report", display the list of report reasons in random order from API. Use radio buttons <br></td>
+                      <td width="20" align="center">25</td>
+                    </tr>   
+                    <tr style="color:red">
+                      <td>9</td>
+                      <td>When clicking on "Submit Report", display message including the reason selected <br></td>
+                      <td width="20" align="center">15</td>
+                    </tr>                       
+                    <tr style="color:green">
+                      <td>10</td>
+                      <td>Page has nice design, it uses at least 10 CSS properties. Includes all elements (header, video, buttons, footer) <br></td>
+                      <td width="20" align="center">15</td>
+                    </tr>
+                    <tr style="color:green">
+                      <td>11</td>
+                      <td>This rubric is properly included AND UPDATED</td>
+                      <td width="20" align="center">2</td>
+                    </tr>
+                        
+                     <tr>
+                      <td></td>
+                      <td>T O T A L </td>
+                      <td width="20" align="center"></td>
+                    </tr> 
+                  </tbody></table>
